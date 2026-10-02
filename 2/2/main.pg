@@ -1,0 +1,27 @@
+:- initialization(main).
+
+% Вставка элемента X в список на любую позицию
+insert(X, Ys, [X|Ys]).
+insert(X, [Y|Ys], [Y|Zs]) :-
+    insert(X, Ys, Zs).
+
+% Генерация перестановок
+perm([], []).
+perm([X|Xs], Ys) :-
+    perm(Xs, Zs),
+    insert(X, Zs, Ys).
+
+% Вывод списка перестановок
+print_list([]).
+print_list([H|T]) :-
+    write(H), nl,
+    print_list(T).
+
+% Главная точка входа для JDoodle
+main :-
+    List = [1, 2, 3],
+    write('Исходное множество: '), write(List), nl,
+    write('Все перестановки:'), nl,
+    findall(P, perm(List, P), Permutations),
+    print_list(Permutations),
+    write('Выполнено.'), nl.
